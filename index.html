@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffeff7">
+  <meta name="description" content="Create your own cute quiz, share it with friends, and see everyone's scores with PinkPop.">
+  <title>PinkPop — Make a Quiz, Share the Vibe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./"><span class="brand-mark">✿</span> pinkpop<span class="brand-dot">.</span></a>
+    <div class="top-actions"><span class="tiny-pill"><span class="live-dot"></span> QUIZ STUDIO</span><button class="small-btn hidden" id="logoutBtn">Log out</button></div>
+  </header>
+
+  <main class="shell">
+    <section class="hero panel" id="homeView">
+      <div class="hero-copy">
+        <p class="eyebrow">YOUR QUIZ, YOUR RULES</p>
+        <h1>Make a quiz.<br><span>Make it yours.</span></h1>
+        <p class="subtitle">Create a quiz about anything, share one little link, and see how many people played and how many answers they got right. ♡</p>
+        <div class="hero-pills"><span>✿ Custom questions</span><span>♡ Shareable link</span><span>✦ Live score dashboard</span></div>
+        <button class="primary-btn" id="createCta">Create my quiz <span>→</span></button>
+      </div>
+      <div class="hero-art" aria-hidden="true"><div class="art-spark spark-a">✦</div><div class="art-spark spark-b">♡</div><div class="art-bear"><i></i><b></b><em></em></div><div class="art-note">your quiz<br>your vibe ✨</div></div>
+    </section>
+
+    <section class="panel builder hidden" id="authView">
+      <button class="text-btn" id="authBack">← Back</button>
+      <p class="eyebrow">YOUR PERSONAL QUIZ STUDIO</p><h2>Sign in to save your quizzes</h2>
+      <p class="muted">Create an account so only you can manage your quizzes and see their score dashboards.</p>
+      <div class="auth-tabs"><button class="tab active" id="loginTab">Log in</button><button class="tab" id="signupTab">Create account</button></div>
+      <form id="authForm" class="stack">
+        <label>Email address<input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+        <label>Password<input id="authPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"></label>
+        <button class="primary-btn full" type="submit" id="authSubmit">Log in →</button>
+      </form>
+      <p class="status" id="authStatus" role="status"></p>
+    </section>
+
+    <section class="panel builder hidden" id="dashboardView">
+      <div class="section-head"><div><p class="eyebrow">WELCOME TO YOUR STUDIO</p><h2>Your quizzes</h2></div><button class="primary-btn" id="newQuizBtn">＋ New quiz</button></div>
+      <p class="muted">Open a quiz to copy its link and view total plays, scores, and question-by-question results.</p>
+      <div id="quizList" class="quiz-list"></div>
+      <div class="empty-state hidden" id="emptyQuizzes"><span>🧸</span><h3>Your first quiz is waiting!</h3><p>Make a quiz about yourself, your friend group, anime, games, or anything you love.</p><button class="primary-btn" id="emptyCreateBtn">Create my first quiz</button></div>
+    </section>
+
+    <section class="panel builder hidden" id="createView">
+      <button class="text-btn" id="createBack">← My quizzes</button>
+      <p class="eyebrow">LET'S MAKE SOMETHING FUN</p><h2>Build your quiz</h2>
+      <p class="muted">Write questions, add answers, and choose the right answer. You can make the quiz about anything.</p>
+      <form id="quizForm" class="stack">
+        <label>Quiz title<input id="quizTitle" maxlength="80" required placeholder="e.g. How well do you know me?"></label>
+        <label>Short description<textarea id="quizDescription" maxlength="220" rows="2" placeholder="A little intro for your friends…"></textarea></label>
+        <div class="builder-heading"><h3>Questions</h3><span class="muted small">2–20 questions · 2–4 choices each</span></div>
+        <div id="questionEditor" class="question-editor"></div>
+        <button type="button" class="secondary-btn full" id="addQuestionBtn">＋ Add question</button>
+        <button type="submit" class="primary-btn full" id="saveQuizBtn">Save quiz and create link ✨</button>
+      </form>
+      <p class="status" id="createStatus" role="status"></p>
+    </section>
+
+    <section class="panel builder hidden" id="detailView">
+      <button class="text-btn" id="detailBack">← My quizzes</button>
+      <div class="section-head detail-title"><div><p class="eyebrow">YOUR QUIZ DASHBOARD</p><h2 id="detailQuizTitle">Quiz title</h2><p class="muted" id="detailQuizDescription"></p></div></div>
+      <div class="share-box"><div><strong>Share your quiz</strong><p class="muted small">Anyone with this link can take it.</p></div><button class="secondary-btn" id="copyQuizLink">Copy link</button><input id="quizLinkField" readonly aria-label="Quiz link"></div>
+      <div class="stats-grid">
+        <div class="stat-card"><span>👀</span><strong id="playsStat">0</strong><small>Total plays</small></div>
+        <div class="stat-card"><span>🎯</span><strong id="averageStat">0%</strong><small>Average score</small></div>
+        <div class="stat-card"><span>🏆</span><strong id="perfectStat">0</strong><small>Perfect scores</small></div>
+      </div>
+      <div class="dashboard-subhead"><h3>Question insights</h3><span class="muted small">Correct answers by question</span></div>
+      <div id="questionStats" class="question-stats"></div>
+      <div class="dashboard-subhead"><h3>Recent attempts</h3><span class="muted small">Latest 100 shown</span></div>
+      <div id="attemptsList" class="attempts-list"></div>
+      <div class="danger-zone"><div><strong>Delete this quiz?</strong><p class="muted small">This also removes its saved attempts.</p></div><button class="danger-btn" id="deleteQuizBtn">Delete quiz</button></div>
+      <p class="status" id="detailStatus" role="status"></p>
+    </section>
+
+    <section class="panel builder hidden" id="takeView">
+      <div class="take-top"><span class="tiny-pill">PINKPOP QUIZ</span><span id="takeProgress" class="muted small">Question 1</span></div>
+      <div class="progress-track"><div class="progress-fill" id="takeProgressFill"></div></div>
+      <p class="eyebrow" id="takeEyebrow">A LITTLE QUIZ FOR YOU</p><h2 id="takeTitle">Loading quiz…</h2><p class="muted" id="takeDescription"></p>
+      <div id="takeQuestionArea"></div>
+      <p class="status" id="takeStatus" role="status"></p>
+    </section>
+
+    <section class="panel builder hidden result-panel" id="scoreView">
+      <div class="score-emoji">🎉</div><p class="eyebrow">QUIZ COMPLETE</p><h2 id="scoreHeading">You did it!</h2>
+      <div class="score-ring"><strong id="scoreFraction">0/0</strong><span id="scorePercent">0%</span></div>
+      <p class="subtitle" id="scoreMessage"></p>
+      <div class="result-actions"><button class="primary-btn" id="shareScoreBtn">Share score ↗</button><button class="secondary-btn" id="homeScoreBtn">Back to PinkPop</button></div>
+      <p class="muted small">Your score is saved to the quiz creator's dashboard. This quiz is just for fun.</p>
+    </section>
+  </main>
+
+  <footer><span>pinkpop<span class="brand-dot">.</span></span><span>Make something fun. Be kind. ♡</span><a href="./">Home</a></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
